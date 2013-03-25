@@ -78,16 +78,27 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
         $items = array();
         foreach ($langs as $l)
             $items[] = array(
-                'label'       => "[" . $l . "] " . mb_convert_case(Yii::app()->locale->getLocaleDisplayName($l), MB_CASE_TITLE, 'UTF-8'),
+                'label'       => CHtml::tag('i',array('class' => "iconflags iconflags-".$l, 'title'=>$l),' '). " " . mb_convert_case(Yii::app()->locale->getLocaleDisplayName($l), MB_CASE_TITLE, 'UTF-8')." ".CHtml::tag('span', array('class'=>'icon icon-remove'),"&nbsp;"),
                 'url'         => '#tab-' . $l,
                 'linkOptions' => array("data-toggle" => "tab"),
                 'active'      => $l == $model->lang,
+                ''
             );
 
+        $items[] = array(
+                'label' => Yii::t('PageModule.page', 'Добавить язык'),
+                'itemOptions' => array('class'=>'pull-right'),
+                'items' => array(
+                        array('label'=> CHtml::tag('i',array('class' => "iconflags iconflags-".$l, 'title'=>$l),' ').' Олбанский', 'url'=>'#'),
+                        array('label'=> CHtml::tag('i',array('class' => "iconflags iconflags-".$l, 'title'=>$l),' ').'Чучмекский', 'url'=>'#')
+                ),
+        );
         $this->widget('bootstrap.widgets.TbMenu', array(
             'type'        => 'tabs', // '', 'tabs', 'pills' (or 'list')
             'stacked'     => false,  // whether this is a stacked menu
             'items'       => $items ,
+            'encodeLabel' => false,
+
             'htmlOptions' => array('style' => 'margin-bottom:0;'),
         ));
 
